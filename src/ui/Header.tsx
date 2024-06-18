@@ -1,9 +1,15 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import SearhOrder from "../features/order/SearhOrder";
+import Username from "../features/user/Username";
 
 function Header() {
 	return (
-		<header>
-			<Link to='/'>Fast Pizza Co.</Link>	
+		<header className="flex items-center justify-between border-b border-stone-200 bg-yellow-400 px-4 py-3 uppercase sm:px-6">
+			<Link to='/' className="tracking-widest">Fast Pizza Co.</Link>	
+
+			<SearhOrder/>
+
+			<Username/>
 		</header>
 	)
 }

@@ -1,3 +1,12 @@
+export interface FormDataInterface {
+	customer: string;
+	phone: string;
+	address: string;
+	status: string;
+	priority: string;
+	cart: string; 
+ }
+
 interface CartItem {
 	pizzaId: number,
    name: string,
@@ -7,15 +16,15 @@ interface CartItem {
 }
 
 export interface OrderInterface {
-	id: string;
+	id?: string;
 	customer: string;
 	phone: string;
 	address: string;
 	priority: boolean;
-	estimatedDelivery: string;
+	estimatedDelivery?: string;
 	cart: CartItem[];
-	position: string;
-	orderPrice: number;
-	priorityPrice: number;
+	position?: string;
+	orderPrice?: number;
+	priorityPrice?: number;
 	status?: string;
  }
