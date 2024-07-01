@@ -1,16 +1,12 @@
 import { Link } from 'react-router-dom';
 import LinkButton from '../../ui/LinkButton';
 import Button from '../../ui/Button';
+import CartItem from './CartItem';
+import { CartItemInterface } from '../../interfaces/OrderInterface';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
-interface CartItem {
-	pizzaId: number;
-	name: string;
-	quantity: number;
-	unitPrice: number;
-	totalPrice: number;
-}
-
-const fakeCart: CartItem[] = [
+const fakeCart: CartItemInterface[] = [
   {
     pizzaId: 12,
     name: 'Mediterranean',
@@ -35,20 +31,31 @@ const fakeCart: CartItem[] = [
 ];
 
 function Cart() {
+	const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+	const username: string = useTypedSelector((state) => state.user.username)
   const cart = fakeCart;
 
   return (
-    <div>
-      <LinkButton to="/menu">&larr; Back to menu</LinkButton>
+	<div className="px-4 py-3">
+	  <LinkButton to="/menu">&larr; Back to menu</LinkButton>
 
-      <h2>Your cart, %NAME%</h2>
+	  <h2 className="mt-7 text-xl font-semibold">Your cart, {username}</h2>
 
-      <div>
-        <Button to="/order/new">Order pizzas</Button>
-        <button>Clear cart</button>
-      </div>
-    </div>
-  );
+	  <ul className="mt-3 divide-y divide-stone-200 border-b">
+		 {cart.map((item) => (
+			<CartItem item={item} key={item.id} />
+		 ))}
+	  </ul>
+
+	  <div className="mt-6 space-x-2">
+		 <Button to="/order/new" type="primary">
+			Order pizzas
+		 </Button>
+
+		 <Button type="secondary">Clear cart</Button>
+	  </div>
+	</div>
+ );
 }
 
 export default Cart;
