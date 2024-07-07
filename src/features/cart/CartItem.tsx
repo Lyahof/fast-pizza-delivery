@@ -1,10 +1,8 @@
 import { useSelector } from 'react-redux';
-import { CartItemInterface } from '../../interfaces/OrderInterface';
-import Button from '../../ui/Button';
-import { formatCurrency } from '../../utils/helpers';
-import { deleteItem, getCurrentQuantityById } from './cartSlice';
 import DeleteItem from './DeleteItem';
 import UpdateItemQuantity from './UpdateItemQuantity';
+import { formatCurrency } from '../../utils/helpers';
+import { getCurrentQuantityById } from './cartSlice';
 
 interface CartItemProps {
 	item: {

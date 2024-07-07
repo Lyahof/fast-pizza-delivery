@@ -6,6 +6,7 @@ import CreateOrder, {action as createOrderAction} from "./features/order/CreateO
 import AppLayout from "./ui/AppLayout"
 import Error from "./ui/Error"
 import Order, {loader as orderLoader} from "./features/order/Order"
+import { action as updateOrderAction } from './features/order/UpdateOrder';
 
 const routes: RouteObject[] = [
 	{
@@ -17,7 +18,7 @@ const routes: RouteObject[] = [
 			{path: "/menu", element: <Menu/>, loader: menuLoader, errorElement: <Error/>},
 			{path: "/cart", element: <Cart/>},
 			{path: "/order/new", element: <CreateOrder/>, action: createOrderAction},
-			{path: "/order/:orderId", element: <Order/>, loader: orderLoader, errorElement: <Error/>},
+			{path: "/order/:orderId", element: <Order/>, loader: orderLoader, errorElement: <Error/>, action: updateOrderAction,},
 		]
 	}
 ]

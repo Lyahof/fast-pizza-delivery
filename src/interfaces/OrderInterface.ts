@@ -8,6 +8,7 @@ export interface FormDataInterface {
  }
 
  export interface CartItemInterface {
+	id: number;
 	pizzaId: number,
    name: string,
    quantity: number,

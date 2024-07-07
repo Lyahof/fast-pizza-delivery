@@ -4,53 +4,64 @@ import { OrderInterface } from "../interfaces/OrderInterface";
 const API_URL = 'https://react-fast-pizza-api.onrender.com/api';
 
 export async function getMenu(): Promise<MenuItemInterface[]> {
-  const res = await fetch(`${API_URL}/menu`);
+	try {
+		const res = await fetch(`${API_URL}/menu`);
+		if (!res.ok) throw new Error('Failed getting menu');
+		const { data } = await res.json();
 
-  if (!res.ok) throw Error('Failed getting menu');
-
-  const { data } = await res.json();
-  return data as MenuItemInterface[];
+		return data as MenuItemInterface[];
+	} catch (err) {
+		console.error('Error fetching menu:', err);
+		throw new Error('Failed getting menu');
+	 }
 }
 
 export async function getOrder(id: string): Promise<OrderInterface> {
-  const res = await fetch(`${API_URL}/order/${id}`);
-  if (!res.ok) throw Error(`Couldn't find order #${id}`);
+	try {
+		const res = await fetch(`${API_URL}/order/${id}`);
+		if (!res.ok) throw new Error(`Couldn't find order #${id}`); 
+		const { data } = await res.json();
 
-  const { data } = await res.json();
-  return data;
+		return data;
+	} catch(err) {
+		console.error(`Error fetching order #${id}:`, err)
+		throw new Error(`Couldn't find order #${id}`)
+	}
+
 }
 
 export async function createOrder(newOrder: OrderInterface): Promise<OrderInterface> {
-  try {
-    const res = await fetch(`${API_URL}/order`, {
-      method: 'POST',
-      body: JSON.stringify(newOrder),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+  	try {
+    	const res = await fetch(`${API_URL}/order`, {
+			method: 'POST',
+			body: JSON.stringify(newOrder),
+			headers: {
+			'Content-Type': 'application/json',
+			},
+    	});
+    	if (!res.ok) throw new Error();
+    	const { data } = await res.json();
 
-    if (!res.ok) throw Error();
-    const { data } = await res.json();
-    return data;
-  } catch {
-    throw Error('Failed creating your order');
-  }
+    	return data;
+  	} 	catch(err) {
+		console.error('Error creating order:', err);
+    	throw new Error('Failed creating your order');
+  		}
 }
 
-export async function updateOrder(id, updateObj) {
-  try {
-    const res = await fetch(`${API_URL}/order/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify(updateObj),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+export async function updateOrder(id: string, updateObj: {priority: boolean}): Promise<void>{
+  	try {
+		const res = await fetch(`${API_URL}/order/${id}`, {
+			method: 'PATCH',
+			body: JSON.stringify(updateObj),
+			headers: {
+			'Content-Type': 'application/json',
+			},
+		});
 
-    if (!res.ok) throw Error();
-    // We don't need the data, so we don't return anything
-  } catch (err) {
-    throw Error('Failed updating your order');
+   	if (!res.ok) throw new Error();
+  	} catch (err) {
+		console.error(`Error updating order #${id}:`, err);
+    	throw new Error('Failed updating your order');
   }
 }
